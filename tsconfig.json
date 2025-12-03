@@ -1,0 +1,13 @@
+{
+  "compilerOptions": {
+    "target": "ES2022",
+    "module": "ES2022",
+    "moduleResolution": "bundler",
+    "lib": ["dom", "ES2022"],
+    "baseUrl": "src",
+    "paths": {
+      "@types/*": ["types/*"],
+      "@ui/*": ["ui/*"]
+    },
+  },
+}
