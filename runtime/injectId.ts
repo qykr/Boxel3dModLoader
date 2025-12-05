@@ -1,4 +1,4 @@
-import { AppState } from "../lib/types/game";
+import { AppState } from "../src/types/game";
 
 // TODO: Finish up more states & types of elements
 // TODO: make it more extensible (less assumptions)

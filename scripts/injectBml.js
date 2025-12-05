@@ -1,0 +1,1 @@
+document.head.innerHTML += "<script src='https://github.com/qykr/Boxel3dModLoader/releases/latest/inject.js'></script>"

@@ -11,6 +11,9 @@ importers:
       matter-js:
         specifier: ^0.20.0
         version: 0.20.0
+      semver:
+        specifier: ^7.7.3
+        version: 7.7.3
       three:
         specifier: ^0.181.2
         version: 0.181.2
@@ -18,6 +21,9 @@ importers:
       '@types/matter-js':
         specifier: ^0.20.2
         version: 0.20.2
+      '@types/semver':
+        specifier: ^7.7.1
+        version: 7.7.1
       '@types/three':
         specifier: ^0.181.0
         version: 0.181.0
@@ -305,6 +311,9 @@ packages:
   '@types/matter-js@0.20.2':
     resolution: {integrity: sha512-3PPKy3QxvZ89h9+wdBV2488I1JLVs7DEpIkPvgO8JC1mUdiVSO37ZIvVctOTD7hIq8OAL2gJ3ugGSuUip6DhCw==, tarball: https://registry.npmjs.org/@types/matter-js/-/matter-js-0.20.2.tgz}
 
+  '@types/semver@7.7.1':
+    resolution: {integrity: sha512-FmgJfu+MOcQ370SD0ev7EI8TlCAfKYU+B4m5T3yXc1CiRN94g/SZPtsCkk506aUDtlMnFZvasDwHHUcZUEaYuA==, tarball: https://registry.npmjs.org/@types/semver/-/semver-7.7.1.tgz}
+
   '@types/stats.js@0.17.4':
     resolution: {integrity: sha512-jIBvWWShCvlBqBNIZt0KAshWpvSjhkwkEu4ZUcASoAvhmrgAUI2t1dXrjSL4xXVLB4FznPrIsX3nKXFl/Dt4vA==, tarball: https://registry.npmjs.org/@types/stats.js/-/stats.js-0.17.4.tgz}
 
@@ -364,6 +373,11 @@ packages:
   rollup@4.53.3:
     resolution: {integrity: sha512-w8GmOxZfBmKknvdXU1sdM9NHcoQejwF/4mNgj2JuEEdRaHwwF12K7e9eXn1nLZ07ad+du76mkVsyeb2rKGllsA==, tarball: https://registry.npmjs.org/rollup/-/rollup-4.53.3.tgz}
     engines: {node: '>=18.0.0', npm: '>=8.0.0'}
+    hasBin: true
+
+  semver@7.7.3:
+    resolution: {integrity: sha512-SdsKMrI9TdgjdweUSR9MweHA4EJ8YxHn8DFaDisvhVlUOe4BF1tLD7GAj0lIqWVl+dPb/rExr0Btby5loQm20Q==, tarball: https://registry.npmjs.org/semver/-/semver-7.7.3.tgz}
+    engines: {node: '>=10'}
     hasBin: true
 
   source-map-js@1.2.1:
@@ -571,6 +585,8 @@ snapshots:
 
   '@types/matter-js@0.20.2': {}
 
+  '@types/semver@7.7.1': {}
+
   '@types/stats.js@0.17.4': {}
 
   '@types/three@0.181.0':
@@ -668,6 +684,8 @@ snapshots:
       '@rollup/rollup-win32-x64-gnu': 4.53.3
       '@rollup/rollup-win32-x64-msvc': 4.53.3
       fsevents: 2.3.3
+
+  semver@7.7.3: {}
 
   source-map-js@1.2.1: {}
 
