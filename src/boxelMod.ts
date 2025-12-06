@@ -38,6 +38,28 @@ export interface BoxelMod {
     isEnabled: boolean;
     isLoaded: boolean;
 
+    /**
+     * Run before any mods load in.
+     * For example, register function signatures here.
+     * @param bml BoxelModLoader instance
+     */
+    preInit(bml: BoxelModLoader): void;
+
+    /**
+     * Main mod function. Runs when the mod is enabled.
+     * @param bml BoxelModLoader instance
+     */
     init(bml: BoxelModLoader): void;
+
+    /**
+     * Runs after all mods have loaded.
+     * @param bml BoxelModLoader instance
+     */
+    postInit(bml: BoxelModLoader): void;
+
+    /**
+     * Runs when the app state changes.
+     * @param state New app state
+     */
     onStateChange(state: AppState): void;
 }

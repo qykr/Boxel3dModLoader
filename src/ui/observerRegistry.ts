@@ -10,7 +10,7 @@ class ObserverRegistry {
         if (this.#register[name]) throw new Error("Observer already exists");
 
         const newCallback = (mutations, observer) => {
-            const state = window.app.state;
+            const state = app.state;
             if (state === null || state === this.#oldState) return;
             this.#oldState = state;
             callback(mutations, observer);
@@ -46,7 +46,7 @@ class ObserverRegistry {
     }
 }
 
-const observerRegistry = new ObserverRegistry();
+export const observerRegistry = new ObserverRegistry();
 
 observerRegistry.addAppStateObserver("ids", () => {
     const selectorFrom: Partial<Record<AppState, string>> = {
@@ -56,7 +56,7 @@ observerRegistry.addAppStateObserver("ids", () => {
     };
     const slugify = (str: string) => str.toLowerCase().split(' ').join('-');
 
-    const selector = selectorFrom[window.app.state];
+    const selector = selectorFrom[app.state];
     if (!selector) return;
 
     const items = Array.from(
@@ -72,7 +72,5 @@ observerRegistry.addAppStateObserver("ids", () => {
 })
 
 observerRegistry.addAppStateObserver("logging", () => {
-    console.log("State changed to", window.app.state);
+    console.log("State changed to", app.state);
 });
-
-export { observerRegistry };

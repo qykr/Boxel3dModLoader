@@ -1,7 +1,7 @@
 import { satisfies } from "semver";
 
 import { BoxelMod } from "./boxelMod";
-import { observerRegistry } from "./ui/domInjector";
+import { observerRegistry } from "./ui/observerRegistry";
 
 export interface BMLManifest {    
     /** Loader human-readable name */
@@ -28,6 +28,7 @@ export interface BMLManifest {
  * Singleton class that manages all mods for Boxel 3D
  */
 export class BoxelModLoader {
+    isLoaded: boolean = false;
     boxelVersion: string;
     manifest: BMLManifest = {
         name: "Boxel Mod Loader",
@@ -40,26 +41,30 @@ export class BoxelModLoader {
     observerRegistry = observerRegistry;
     mods: BoxelMod[] = [];
 
-    private static instance: BoxelModLoader | null = null;
+    static #instance: BoxelModLoader | null = null;
 
     private constructor() {
-        this.getBoxelVersion();
-        console.log("Boxel v" + this.boxelVersion)
-        console.log("Boxel Mod Loader v" + this.manifest.version)
+        this.getBoxelVersion().then(() => {
+            this.isLoaded = true;
+            console.log("Boxel v" + this.boxelVersion);
+            console.log("Boxel Mod Loader v" + this.manifest.version);
+        });
     }
 
-    public static getInstance(): BoxelModLoader {
-        if (this.instance === null) {
-            this.instance = new BoxelModLoader();
+    public static async getInstance(): Promise<BoxelModLoader> {
+        if (this.#instance === null) {
+            this.#instance = new BoxelModLoader();
         }
-        return this.instance;
+        return this.#instance;
     }
 
     public addMod(mod: BoxelMod) {
         this.mods.push(mod);
     }
 
-    public async getBoxelVersion(): Promise<String> {
+    public async getBoxelVersion(): Promise<string> {
+        if (this.boxelVersion !== undefined) return this.boxelVersion;
+
         const manifest = await (await fetch("../manifest.json")).json();
         this.boxelVersion = manifest["version"];
         const compatible = satisfies(this.boxelVersion, this.manifest.boxelCompat);
@@ -68,6 +73,7 @@ export class BoxelModLoader {
         return this.boxelVersion;
     }
 
+    // TODO: hook stacking and storage, probably need a registry
     public registerPreHook(
         obj: any,
         fnName: string,

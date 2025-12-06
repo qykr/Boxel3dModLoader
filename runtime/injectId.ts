@@ -14,7 +14,7 @@ const selectorFrom: Partial<Record<AppState, string>> = {
 
 const slugify = (str: string) => str.toLowerCase().split(' ').join('-');
 function assignItemIds() {
-  const newState: AppState = window.app.state;
+  const newState: AppState = app.state;
   if (newState === null || newState === state) return;
   state = newState;
 
