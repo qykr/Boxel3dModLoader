@@ -1,7 +1,10 @@
 import { satisfies } from "semver";
 
 import { BoxelMod } from "./boxelMod";
-import { observerRegistry } from "./ui/observerRegistry";
+import { hookRegistry } from "./hookRegistry";
+import { observerRegistry } from "./observerRegistry";
+import { gameApi } from "./gameModifier";
+import { listenerRegistry } from "./listenerRegistry";
 
 export interface BMLManifest {    
     /** Loader human-readable name */
@@ -23,12 +26,19 @@ export interface BMLManifest {
     modManifestVersion?: string;
 }
 
+export enum BMLState {
+    Unloaded = "unloaded",
+    PreInit = "pre-init",
+    Init = "init",
+    PostInit = "post-init",
+    Loaded = "loaded"
+}
 
 /**
  * Singleton class that manages all mods for Boxel 3D
  */
 export class BoxelModLoader {
-    isLoaded: boolean = false;
+    state: BMLState = BMLState.Unloaded;
     boxelVersion: string;
     manifest: BMLManifest = {
         name: "Boxel Mod Loader",
@@ -38,20 +48,37 @@ export class BoxelModLoader {
         author: "qykr",
         modManifestVersion: "0.0.1"
     };
-    observerRegistry = observerRegistry;
-    mods: BoxelMod[] = [];
+    #mods: BoxelMod[] = [];
+
+    hooks = hookRegistry;
+    listeners = listenerRegistry;
+    observers = observerRegistry;
+    game = gameApi;
 
     static #instance: BoxelModLoader | null = null;
 
     private constructor() {
-        this.getBoxelVersion().then(() => {
-            this.isLoaded = true;
-            console.log("Boxel v" + this.boxelVersion);
-            console.log("Boxel Mod Loader v" + this.manifest.version);
-        });
+        this.getBoxelVersion()
+            .then(() => {
+                console.log("Boxel v" + this.boxelVersion);
+                console.log("Boxel Mod Loader v" + this.manifest.version);
+                // TODO: insert fetch mods from local storage here
+                this.state = BMLState.PreInit;
+                for (const mod of this.#mods) {
+                    mod.preInit(this);
+                }
+                this.state = BMLState.Init;
+                for (const mod of this.#mods) {
+                    mod.init(this);
+                }
+                this.state = BMLState.PostInit;
+                for (const mod of this.#mods) {
+                    mod.postInit(this);
+                }
+            });
     }
 
-    public static async getInstance(): Promise<BoxelModLoader> {
+    public static get instance(): BoxelModLoader {
         if (this.#instance === null) {
             this.#instance = new BoxelModLoader();
         }
@@ -59,7 +86,7 @@ export class BoxelModLoader {
     }
 
     public addMod(mod: BoxelMod) {
-        this.mods.push(mod);
+        this.#mods.push(mod);
     }
 
     public async getBoxelVersion(): Promise<string> {
@@ -71,31 +98,5 @@ export class BoxelModLoader {
         if (!compatible) throw new Error("Boxel v" + this.boxelVersion + " is not compatible with mod loader");
         // TODO: check the latest version compatible and tell user to upgrade
         return this.boxelVersion;
-    }
-
-    // TODO: hook stacking and storage, probably need a registry
-    public registerPreHook(
-        obj: any,
-        fnName: string,
-        preFn: (...args: any[]) => void
-    ) {
-        const original = obj[fnName];
-        obj[fnName] = function (...args: any[]) {
-            preFn(...args)
-            return original.apply(this, args);
-        };
-    }
-
-    public registerPostHook(
-        obj: any,
-        fnName: string,
-        after: (result: any, ...args: any[]) => void
-    ) {
-        const original = obj[fnName];
-        obj[fnName] = function (...args: any[]) {
-            const result = original.apply(this, args);
-            after(result, ...args);
-            return result;
-        };
     }
 }
