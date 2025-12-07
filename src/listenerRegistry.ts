@@ -1,4 +1,4 @@
-import { BoxelModLoader } from "bml";
+import { BoxelModLoader } from "./bml";
 import { AppState } from "./types/game";
 
 export interface Listener {
