@@ -42,7 +42,7 @@ jobs:
         run: pnpm run build
 
       - name: Copy build into game folder
-        run: cp dist/ game/v1/
+        run: cp -r dist/ game/v1/
         
       - name: Setup Pages
         uses: actions/configure-pages@v5
