@@ -40,6 +40,9 @@ jobs:
 
       - name: Build with Vite
         run: pnpm run build
+
+      - name: Copy build into game folder
+        run: cp dist/bml.js game/v1/
         
       - name: Setup Pages
         uses: actions/configure-pages@v5
