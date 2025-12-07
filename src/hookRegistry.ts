@@ -15,6 +15,13 @@ export class HookGroup<TArgs extends any[] = any[]> {
         this.hooks.delete(name);
     }
 
+    public addOneTimeHook(name: string, fn: (...args: TArgs) => void, priority: number = 0) {
+        this.addHook(name, (...args: TArgs) => {
+            fn(...args);
+            this.removeHook(name);
+        }, priority);
+    }
+
     public toFnArray() {
         return Array.from(this.hooks.values())
             .sort((a, b) => a.priority - b.priority)

@@ -1,3 +1,4 @@
+import { BoxelModLoader } from "bml";
 import { AppState } from "./types/game";
 
 export interface Listener {
@@ -71,4 +72,10 @@ listenerRegistry.addListener("injectIds", "appStateChange", () => {
 
 listenerRegistry.addListener("logging", "appStateChange", () => {
     console.log("State changed to", app.state);
+});
+
+listenerRegistry.addListener("modCallback", "appStateChange", () => {
+    for (const mod of BoxelModLoader.instance.mods) {
+        mod.onStateChange(app.state);
+    }
 });

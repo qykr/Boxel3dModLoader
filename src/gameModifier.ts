@@ -15,35 +15,59 @@ class GameApi {
     get isDead() { return app.player.isFrozen(); }
     get timer() { return app.timer.toString(); }
 
-    public addBeforeUpdateHook(name: string, fn: () => void, priority: number = 0) {
+    /**
+     * Called before each game update
+     * 
+     * @param name Name of the hook
+     * @param fn Callback to register
+     * @param priority Higher priority means it comes earlier
+     */
+    public addBeforeUpdate(name: string, fn: () => void, priority: number = 0) {
         this.beforeUpdate.addHook(name, fn, priority);
         app.engine.events.beforeUpdate = this.beforeUpdate.toFnArray();
     }
 
-    public addAfterUpdateHook(name: string, fn: () => void, priority: number = 0) {
+    /**
+     * Called after each game update
+     * 
+     * @param name Name of the hook
+     * @param fn Callback to register
+     * @param priority Higher priority means it comes earlier
+     */
+    public addAfterUpdate(name: string, fn: () => void, priority: number = 0) {
         this.afterUpdate.addHook(name, fn, priority);
         app.engine.events.afterUpdate = this.afterUpdate.toFnArray();
     }
 
-    public removeBeforeUpdateHook(name: string) {
+    /**
+     * Removes a before update hook
+     * 
+     * @param name Name of the hook
+     */
+    public removeBeforeUpdate(name: string) {
         this.beforeUpdate.removeHook(name);
         app.engine.events.beforeUpdate = this.beforeUpdate.toFnArray();
     }
 
-    public removeAfterUpdateHook(name: string) {
+    /**
+     * Removes an after update hook
+     * 
+     * @param name Name of the hook
+     */
+    public removeAfterUpdate(name: string) {
         this.afterUpdate.removeHook(name);
         app.engine.events.afterUpdate = this.afterUpdate.toFnArray();
     }
 
     public singleBeforeUpdateHook(name: string, fn: () => void, priority: number = 0) {
-        this.addBeforeUpdateHook(name, () => {
+        this.addBeforeUpdate(name, () => {
             fn();
             this.beforeUpdate.removeHook(name); // prevent beforeUpdate refresh
         }, priority);
     }
 
     public singleAfterUpdateHook(name: string, fn: () => void, priority: number = 0) {
-        this.addAfterUpdateHook(name, () => {
+        this.addAfterUpdate(name, () => {
             fn();
             this.afterUpdate.removeHook(name); //prevent afterUpdate refresh
         }, priority);

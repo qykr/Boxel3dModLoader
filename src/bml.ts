@@ -28,6 +28,7 @@ export interface BMLManifest {
 
 export enum BMLState {
     Unloaded = "unloaded",
+    FetchingMods = "fetching-mods",
     PreInit = "pre-init",
     Init = "init",
     PostInit = "post-init",
@@ -40,7 +41,7 @@ export enum BMLState {
 export class BoxelModLoader {
     state: BMLState = BMLState.Unloaded;
     boxelVersion: string;
-    manifest: BMLManifest = {
+    readonly manifest: BMLManifest = {
         name: "Boxel Mod Loader",
         version: "0.0.1",
         boxelCompat: "^2.8.0",
@@ -48,8 +49,8 @@ export class BoxelModLoader {
         author: "qykr",
         modManifestVersion: "0.0.1"
     };
-    #mods: BoxelMod[] = [];
 
+    mods: BoxelMod[] = [];
     hooks = hookRegistry;
     listeners = listenerRegistry;
     observers = observerRegistry;
@@ -64,15 +65,15 @@ export class BoxelModLoader {
                 console.log("Boxel Mod Loader v" + this.manifest.version);
                 // TODO: insert fetch mods from local storage here
                 this.state = BMLState.PreInit;
-                for (const mod of this.#mods) {
+                for (const mod of this.mods) {
                     mod.preInit(this);
                 }
                 this.state = BMLState.Init;
-                for (const mod of this.#mods) {
+                for (const mod of this.mods) {
                     mod.init(this);
                 }
                 this.state = BMLState.PostInit;
-                for (const mod of this.#mods) {
+                for (const mod of this.mods) {
                     mod.postInit(this);
                 }
             });
@@ -86,7 +87,7 @@ export class BoxelModLoader {
     }
 
     public addMod(mod: BoxelMod) {
-        this.#mods.push(mod);
+        this.mods.push(mod);
     }
 
     public async getBoxelVersion(): Promise<string> {
