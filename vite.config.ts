@@ -5,7 +5,6 @@ export default defineConfig({
         rollupOptions: {
             input: "runtime/index.ts",
             output: {
-                inlineDynamicImports: true,
                 entryFileNames: `bml.js`,
             },
         },

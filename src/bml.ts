@@ -3,8 +3,10 @@ import { satisfies } from "semver";
 import { BoxelMod } from "./boxelMod";
 import { hookRegistry } from "./hookRegistry";
 import { observerRegistry } from "./observerRegistry";
-import { gameApi } from "./gameModifier";
+import { gameApi } from "./gameApi";
 import { listenerRegistry } from "./listenerRegistry";
+import { modDb } from "./storage/modDb";
+import { CarouselItem } from "./ui/carousel";
 
 export interface BMLManifest {    
     /** Loader human-readable name */
@@ -16,14 +18,14 @@ export interface BMLManifest {
     /** Boxel version compatibility */
     boxelCompat: string;
 
+    /** IndexedDB version */
+    idbVersion: number;
+
     /** Description of the loader */
     description?: string;
 
     /** Author or team */
     author?: string;
-
-    /** Supported mod format / manifest version */
-    modManifestVersion?: string;
 }
 
 export enum BMLState {
@@ -45,12 +47,13 @@ export class BoxelModLoader {
         name: "Boxel Mod Loader",
         version: "0.0.1",
         boxelCompat: "^2.8.0",
+        idbVersion: 1,
         description: "A mod loader for Boxel 3D",
-        author: "qykr",
-        modManifestVersion: "0.0.1"
+        author: "qykr"
     };
 
     mods: BoxelMod[] = [];
+    db = modDb;
     hooks = hookRegistry;
     listeners = listenerRegistry;
     observers = observerRegistry;
@@ -59,24 +62,29 @@ export class BoxelModLoader {
     static #instance: BoxelModLoader | null = null;
 
     private constructor() {
-        this.getBoxelVersion()
-            .then(() => {
-                console.log("Boxel v" + this.boxelVersion);
-                console.log("Boxel Mod Loader v" + this.manifest.version);
-                // TODO: insert fetch mods from local storage here
-                this.state = BMLState.PreInit;
-                for (const mod of this.mods) {
-                    mod.preInit(this);
-                }
-                this.state = BMLState.Init;
-                for (const mod of this.mods) {
-                    mod.init(this);
-                }
-                this.state = BMLState.PostInit;
-                for (const mod of this.mods) {
-                    mod.postInit(this);
-                }
-            });
+        this.getBoxelVersion().then(() => {
+            console.log("Boxel v" + this.boxelVersion);
+            console.log("Boxel Mod Loader v" + this.manifest.version);
+            // TODO: insert fetch mods from local storage here
+            this.state = BMLState.PreInit;
+            for (const mod of this.mods) {
+                mod.preInit(this);
+            }
+            this.state = BMLState.Init;
+            for (const mod of this.mods) {
+                mod.init(this);
+            }
+            this.state = BMLState.PostInit;
+            for (const mod of this.mods) {
+                mod.postInit(this);
+            }
+
+            // Ensure that this occurs once the mod is loaded
+            window.dispatchEvent(new CustomEvent(
+                "appStateChange",
+                { detail: app.state}
+            ));
+        });
     }
 
     public static get instance(): BoxelModLoader {
@@ -101,3 +109,16 @@ export class BoxelModLoader {
         return this.boxelVersion;
     }
 }
+
+listenerRegistry.addListener("bml-button", "appStateChange", () => {
+    if (app.state != "home") return;
+
+    const bmlMenu = new CarouselItem.Builder()
+        .setTitle("Mod Loader")
+        .setThumbnail("../svg/button-level-editor.svg")
+        .setCallback(() => alert("Mod loader clicked"))
+        .build();
+
+    const carousel = document.querySelector(".carousel") as HTMLElement;
+    bmlMenu.inject(carousel, -1);
+})

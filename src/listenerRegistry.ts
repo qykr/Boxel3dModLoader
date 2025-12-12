@@ -14,10 +14,12 @@ class ListenerRegistry {
         window.addEventListener("pageMounted", () => {
             if (app.state === this.#oldState) return;
             this.#oldState = app.state;
-            window.dispatchEvent(new CustomEvent(
-                "appStateChange",
-                { detail: app.state}
-            ));
+            setTimeout(() => {
+                window.dispatchEvent(new CustomEvent(
+                    "appStateChange",
+                    { detail: app.state}
+                ));
+            }, 50); // To wait for page load
         });
     }
     
@@ -26,7 +28,6 @@ class ListenerRegistry {
         listener: EventListenerOrEventListenerObject
     ) {
         this.#register[name] = { type, listener };
-        console.log(type);
         window.addEventListener(type, listener);
     }
 
