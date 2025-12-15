@@ -1,4 +1,5 @@
 import { satisfies } from "semver";
+import { mount } from "svelte";
 
 import { BoxelMod } from "./boxelMod";
 import { hookRegistry } from "./hookRegistry";
@@ -6,8 +7,8 @@ import { observerRegistry } from "./observerRegistry";
 import { gameApi } from "./gameApi";
 import { listenerRegistry } from "./listenerRegistry";
 import { modDb } from "./storage/modDb";
-import { CarouselItem } from "./ui/carousel";
-
+import CarouselItem from "./ui/CarouselItem.svelte"
+import { getAnchor } from "./utils/dom";
 export interface BMLManifest {    
     /** Loader human-readable name */
     name: string;
@@ -110,15 +111,30 @@ export class BoxelModLoader {
     }
 }
 
+// listenerRegistry.addListener("bml-button", "appStateChange", () => {
+//     if (app.state != "home") return;
+
+//     const bmlMenu = new CarouselItem.Builder()
+//         .setTitle("Mod Loader")
+//         .setThumbnail("../svg/button-level-editor.svg")
+//         .setCallback(() => alert("Mod loader clicked"))
+//         .build();
+
+//     const carousel = document.querySelector(".carousel") as HTMLElement;
+//     bmlMenu.inject(carousel, -1);
+// })
+
 listenerRegistry.addListener("bml-button", "appStateChange", () => {
     if (app.state != "home") return;
 
-    const bmlMenu = new CarouselItem.Builder()
-        .setTitle("Mod Loader")
-        .setThumbnail("../svg/button-level-editor.svg")
-        .setCallback(() => alert("Mod loader clicked"))
-        .build();
-
     const carousel = document.querySelector(".carousel") as HTMLElement;
-    bmlMenu.inject(carousel, -1);
+    const bmlMenu = mount(CarouselItem, {
+        target: carousel,
+        anchor: getAnchor(carousel, -1, ".item"),
+        props: {
+            title: "Mod Loader",
+            thumbnailUrl: "../svg/button-level-editor.svg",
+            onclick: () => alert("Mod loader clicked")
+        }
+    })
 })

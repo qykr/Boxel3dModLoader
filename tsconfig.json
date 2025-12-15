@@ -5,9 +5,7 @@
     "moduleResolution": "bundler",
     "lib": ["dom", "ES2022"],
     "baseUrl": "src",
-    "paths": {
-      "@types/*": ["types/*"],
-      "@ui/*": ["ui/*"]
-    },
+    "types": ["svelte"]
   },
+  "exclude": ["node_modules", "game", "dist"]
 }
