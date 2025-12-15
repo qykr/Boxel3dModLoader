@@ -47,36 +47,3 @@ class ListenerRegistry {
 }
 
 export const listenerRegistry = new ListenerRegistry();
-
-listenerRegistry.addListener("injectIds", "appStateChange", () => {
-    const selectorFrom: Partial<Record<AppState, string>> = {
-        [AppState.Home]: ".title",
-        [AppState.LevelPicker]: ".label",
-        [AppState.Skins]: ".title"
-    };
-    const slugify = (str: string) => str.toLowerCase().split(' ').join('-');
-
-    const selector = selectorFrom[app.state];
-    if (!selector) return;
-
-    const items = Array.from(
-        document.querySelectorAll<HTMLElement>(".carousel .item")
-    );
-    for (const item of items) {
-        const nameElement = item.querySelector<HTMLElement>(selector);
-        if (!nameElement) continue;
-
-        const id = slugify(nameElement.innerText);
-        item.setAttribute("data-bml-id", id);
-    }
-})
-
-listenerRegistry.addListener("logging", "appStateChange", () => {
-    console.log("State changed to", app.state);
-});
-
-listenerRegistry.addListener("modCallback", "appStateChange", () => {
-    for (const mod of BoxelModLoader.instance.mods) {
-        mod.onStateChange(app.state);
-    }
-});
