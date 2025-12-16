@@ -15,7 +15,7 @@ export interface BMLManifest {
     version: string;
 
     /** Boxel version compatibility */
-    boxelCompat: string;
+    boxelVersion: string;
 
     /** IndexedDB version */
     idbVersion: number;
@@ -45,7 +45,7 @@ export class BoxelModLoader {
     readonly manifest: BMLManifest = {
         name: "Boxel Mod Loader",
         version: "0.0.1",
-        boxelCompat: "^2.8.0",
+        boxelVersion: "^2.8.0",
         idbVersion: 1,
         description: "A mod loader for Boxel 3D",
         author: "qykr"
@@ -102,7 +102,7 @@ export class BoxelModLoader {
 
         const manifest = await (await fetch("../manifest.json")).json();
         this.boxelVersion = manifest["version"];
-        const compatible = satisfies(this.boxelVersion, this.manifest.boxelCompat);
+        const compatible = satisfies(this.boxelVersion, this.manifest.boxelVersion);
         if (!compatible) throw new Error("Boxel v" + this.boxelVersion + " is not compatible with mod loader");
         // TODO: check the latest version compatible and tell user to upgrade
         return this.boxelVersion;

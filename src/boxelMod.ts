@@ -21,13 +21,13 @@ export interface ModManifest {
      * Boxel version compatibility
      * Optional, defaults to any
      */
-    boxelCompat?: string;
+    boxelVersion?: string;
 
     /**
      * Mod loader version compatibility
      * Optional, defaults to any
      */
-    bmlCompat?: string;
+    bmlVersion?: string;
 
     /** Mod icon source */
     iconSrc?: string;

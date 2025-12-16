@@ -1,9 +1,9 @@
 import { mount } from "svelte";
 
-import CarouselItem from "../src/components/CarouselItem.svelte";
 import { BoxelModLoader } from "../src/bml";
 import { getAnchor } from "../src/utils/dom";
 import { AppState } from "../src/types/game";
+import ModMenu from "../src/components/ModMenu.svelte";
 
 const bml = BoxelModLoader.instance;
 
@@ -11,14 +11,9 @@ bml.listeners.addListener("bml-button", "appStateChange", () => {
     if (app.state != "home") return;
 
     const carousel = document.querySelector(".carousel") as HTMLElement;
-    mount(CarouselItem, {
+    mount(ModMenu, {
         target: carousel,
-        anchor: getAnchor(carousel, 0, ".item"),
-        props: {
-            title: "Mod Loader",
-            thumbnailUrl: "../svg/button-level-editor.svg",
-            onclick: () => alert("Mod loader clicked")
-        }
+        anchor: getAnchor(carousel, 0, ".item")
     })
 });
 
