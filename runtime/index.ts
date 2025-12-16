@@ -1,6 +1,6 @@
 import { mount } from "svelte";
 
-import CarouselItem from "../src/ui/CarouselItem.svelte";
+import CarouselItem from "../src/components/CarouselItem.svelte";
 import { BoxelModLoader } from "../src/bml";
 import { getAnchor } from "../src/utils/dom";
 import { AppState } from "../src/types/game";
