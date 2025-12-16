@@ -1,8 +1,11 @@
 import { HookGroup } from "./hookRegistry";
 
+/**
+ * Quality of life improvements on the built in game modding API
+ */
 class GameApi {
-    beforeUpdate: HookGroup = new HookGroup();
-    afterUpdate: HookGroup = new HookGroup();
+    #beforeUpdate: HookGroup = new HookGroup();
+    #afterUpdate: HookGroup = new HookGroup();
 
     constructor() {}
 
@@ -18,58 +21,58 @@ class GameApi {
     /**
      * Called before each game update
      * 
-     * @param name Name of the hook
+     * @param id Id of the hook
      * @param fn Callback to register
      * @param priority Higher priority means it comes earlier
      */
-    public addBeforeUpdate(name: string, fn: () => void, priority: number = 0) {
-        this.beforeUpdate.addHook(name, fn, priority);
-        app.engine.events.beforeUpdate = this.beforeUpdate.toFnArray();
+    public addBeforeUpdate(id: string, fn: () => void, priority: number = 0) {
+        this.#beforeUpdate.addHook(id, fn, priority);
+        app.engine.events.beforeUpdate = this.#beforeUpdate.toFnArray();
     }
 
     /**
      * Called after each game update
      * 
-     * @param name Name of the hook
+     * @param id Id of the hook
      * @param fn Callback to register
      * @param priority Higher priority means it comes earlier
      */
-    public addAfterUpdate(name: string, fn: () => void, priority: number = 0) {
-        this.afterUpdate.addHook(name, fn, priority);
-        app.engine.events.afterUpdate = this.afterUpdate.toFnArray();
+    public addAfterUpdate(id: string, fn: () => void, priority: number = 0) {
+        this.#afterUpdate.addHook(id, fn, priority);
+        app.engine.events.afterUpdate = this.#afterUpdate.toFnArray();
     }
 
     /**
      * Removes a before update hook
      * 
-     * @param name Name of the hook
+     * @param id Id of the hook
      */
-    public removeBeforeUpdate(name: string) {
-        this.beforeUpdate.removeHook(name);
-        app.engine.events.beforeUpdate = this.beforeUpdate.toFnArray();
+    public removeBeforeUpdate(id: string) {
+        this.#beforeUpdate.removeHook(id);
+        app.engine.events.beforeUpdate = this.#beforeUpdate.toFnArray();
     }
 
     /**
      * Removes an after update hook
      * 
-     * @param name Name of the hook
+     * @param id Id of the hook
      */
-    public removeAfterUpdate(name: string) {
-        this.afterUpdate.removeHook(name);
-        app.engine.events.afterUpdate = this.afterUpdate.toFnArray();
+    public removeAfterUpdate(id: string) {
+        this.#afterUpdate.removeHook(id);
+        app.engine.events.afterUpdate = this.#afterUpdate.toFnArray();
     }
 
-    public singleBeforeUpdateHook(name: string, fn: () => void, priority: number = 0) {
-        this.addBeforeUpdate(name, () => {
+    public singleBeforeUpdateHook(id: string, fn: () => void, priority: number = 0) {
+        this.addBeforeUpdate(id, () => {
             fn();
-            this.beforeUpdate.removeHook(name); // prevent beforeUpdate refresh
+            this.#beforeUpdate.removeHook(id); // prevent beforeUpdate refresh
         }, priority);
     }
 
-    public singleAfterUpdateHook(name: string, fn: () => void, priority: number = 0) {
-        this.addAfterUpdate(name, () => {
+    public singleAfterUpdateHook(id: string, fn: () => void, priority: number = 0) {
+        this.addAfterUpdate(id, () => {
             fn();
-            this.afterUpdate.removeHook(name); //prevent afterUpdate refresh
+            this.#afterUpdate.removeHook(id); //prevent afterUpdate refresh
         }, priority);
     }
 }

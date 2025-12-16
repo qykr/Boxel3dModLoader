@@ -6,6 +6,7 @@ import { observerRegistry } from "./observerRegistry";
 import { gameApi } from "./gameApi";
 import { listenerRegistry } from "./listenerRegistry";
 import { modDb } from "./storage/modDb";
+
 export interface BMLManifest {    
     /** Loader human-readable name */
     name: string;
