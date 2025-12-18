@@ -1,15 +1,21 @@
 import { defineConfig } from 'vite'
 import { svelte } from '@sveltejs/vite-plugin-svelte'
 
-export default defineConfig({
+export default defineConfig(({ mode }) => {
+  const isMinify = mode === 'minify'
+
+  return {
     plugins: [svelte()],
     build: {
-        rollupOptions: {
-            input: "runtime/index.ts",
-            output: {
-                entryFileNames: `bml.js`,
-            },
+      minify: isMinify ? 'esbuild' : false,
+      rollupOptions: {
+        input: "runtime/index.ts",
+        output: {
+          entryFileNames: isMinify ? `bml.min.js` : `bml.js`,
         },
-        cssCodeSplit: false,
+      },
+      cssCodeSplit: false,
+      emptyOutDir: false, 
     },
+  }
 })

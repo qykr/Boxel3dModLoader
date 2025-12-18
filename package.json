@@ -3,7 +3,9 @@
   "version": "0.0.1",
   "description": "A mod loader for Boxel 3D",
   "scripts": {
-    "build": "vite build",
+    "build:min": "vite build --mode minify",
+    "build:full": "vite build --mode unminify",
+    "build": "npm run build:full && npm run build:min",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
