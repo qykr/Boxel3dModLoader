@@ -1,11 +1,25 @@
 import { BoxelModLoader } from "../bml";
 import { BoxelMod } from "../boxelMod";
 
+export async function importUrl(url: string) {
+    const code = await fetch(url).then(r => r.text());
+    const blob = new Blob([code], { type: "text/javascript" });
+    const blobUrl = URL.createObjectURL(blob);
+    const module = await import(blobUrl);
+    URL.revokeObjectURL(blobUrl);
+    return module;
+}
+
 export class ModDb {
     #idb: IDBDatabase;
     #storage: Storage;
 
     constructor() {}
+
+    async test() {
+        const module = await importUrl("https://raw.githubusercontent.com/mdn/js-examples/refs/heads/main/module-examples/basic-modules/modules/square.js");
+        console.log(module.default);
+    }
 
     async #tx<T>(
         mode: IDBTransactionMode,

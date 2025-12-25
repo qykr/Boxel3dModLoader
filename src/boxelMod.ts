@@ -31,6 +31,12 @@ export interface ModManifest {
 
     /** Mod icon source */
     iconSrc?: string;
+
+    /** Other mod dependencies */
+    dependencies?: Array<string>;
+
+    /** Mod entry point */
+    mainFile?: string;
 }
 
 export interface BoxelMod {

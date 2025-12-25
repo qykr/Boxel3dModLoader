@@ -18,3 +18,9 @@
         </span>
     </a>
 </div>
+
+<style>
+    .content.compact {
+        width: 30em !important;
+    }
+</style>

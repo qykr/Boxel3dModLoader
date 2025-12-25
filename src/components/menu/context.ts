@@ -2,7 +2,7 @@ import { createContext } from 'svelte';
 
 export type MenuContext = {
     selected: string,
-    get close(): void
+    readonly close: (event?: MouseEvent) => void
 };
 
 export const [getMenuContext, setMenuContext] = createContext<MenuContext>();

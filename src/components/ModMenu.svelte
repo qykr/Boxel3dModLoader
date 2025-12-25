@@ -24,12 +24,20 @@
     defaultTab="mods"
   >
     <MenuTabs>
-      <MenuTab target="mods" label="Mods" icon="gamepad" />
-      <MenuTab target="downloads" label="Downloads" icon="download" />
+      <MenuTab target="installed" label="Installed" icon="extension" />
+      <MenuTab target="featured" label="Featured" icon="star" />
+      <MenuTab target="download" label="Download" icon="download" />
     </MenuTabs>
     <MenuPanels>
-      <MenuPanel id="mods"><p>Hello there</p></MenuPanel>
-      <MenuPanel id="downloads"><p>Nothing to see</p></MenuPanel>
+      <MenuPanel id="installed">
+        <p>Mods</p>
+      </MenuPanel>
+      <MenuPanel id="featured">
+        <p>Featured</p>
+      </MenuPanel>
+      <MenuPanel id="download">
+        <p>Download</p>
+      </MenuPanel>
     </MenuPanels>
   </Menu>
 {/if}

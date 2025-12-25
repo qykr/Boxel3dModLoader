@@ -5,7 +5,11 @@ export default defineConfig(({ mode }) => {
   const isMinify = mode === 'minify'
 
   return {
-    plugins: [svelte()],
+    plugins: [svelte({
+      compilerOptions: {
+        css: 'injected'
+      }
+    })],
     build: {
       minify: isMinify ? 'esbuild' : false,
       rollupOptions: {
@@ -15,7 +19,7 @@ export default defineConfig(({ mode }) => {
         },
       },
       cssCodeSplit: false,
-      emptyOutDir: false, 
+      emptyOutDir: false,
     },
   }
 })

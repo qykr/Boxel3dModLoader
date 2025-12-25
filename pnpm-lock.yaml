@@ -23,6 +23,9 @@ importers:
       three:
         specifier: ^0.181.2
         version: 0.181.2
+      webextension-polyfill:
+        specifier: ^0.12.0
+        version: 0.12.0
     devDependencies:
       '@sveltejs/vite-plugin-svelte':
         specifier: ^6.2.1
@@ -542,6 +545,9 @@ packages:
       vite:
         optional: true
 
+  webextension-polyfill@0.12.0:
+    resolution: {integrity: sha512-97TBmpoWJEE+3nFBQ4VocyCdLKfw54rFaJ6EVQYLBCXqCIpLSZkwGgASpv4oPt9gdKCJ80RJlcmNzNn008Ag6Q==, tarball: https://registry.npmjs.org/webextension-polyfill/-/webextension-polyfill-0.12.0.tgz}
+
   zimmerframe@1.1.4:
     resolution: {integrity: sha512-B58NGBEoc8Y9MWWCQGl/gq9xBCe4IiKM0a2x7GZdQKOW5Exr8S1W24J6OgM1njK8xCRGvAJIL/MxXHf6SkmQKQ==, tarball: https://registry.npmjs.org/zimmerframe/-/zimmerframe-1.1.4.tgz}
 
@@ -922,5 +928,7 @@ snapshots:
   vitefu@1.1.1(vite@7.2.6):
     optionalDependencies:
       vite: 7.2.6
+
+  webextension-polyfill@0.12.0: {}
 
   zimmerframe@1.1.4: {}

@@ -6,6 +6,7 @@
     "build:min": "vite build --mode minify",
     "build:full": "vite build --mode unminify",
     "build": "npm run build:full && npm run build:min",
+    "build:ext": "vite build --mode extension && vite build --mode extension-content && cp extension/manifest.json extension/dist/",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
@@ -17,7 +18,8 @@
     "semver": "^7.7.3",
     "svelte": "^5.46.0",
     "svelte-portal": "^2.2.1",
-    "three": "^0.181.2"
+    "three": "^0.181.2",
+    "webextension-polyfill": "^0.12.0"
   },
   "devDependencies": {
     "@sveltejs/vite-plugin-svelte": "^6.2.1",
