@@ -21,7 +21,7 @@
   <Menu
     bind:this={modMenu}
     close={toggleMenu}
-    defaultTab="mods"
+    defaultTab="installed"
   >
     <MenuTabs>
       <MenuTab target="installed" label="Installed" icon="extension" />

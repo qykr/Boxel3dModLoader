@@ -2,12 +2,13 @@
     import { type Snippet } from "svelte";
     import { getMenuContext } from "./context";
 
-    let { children }: { children?: Snippet } = $props();
+    let { width = "50em", children }:
+        { width?: string; children?: Snippet } = $props();
 
     const ctx = getMenuContext();
 </script>
 
-<div class="content compact">
+<div class="content compact" style="width: {width}">
     {@render children()}
     <!-- svelte-ignore a11y_missing_attribute -->
     <!-- svelte-ignore a11y_click_events_have_key_events -->
@@ -18,9 +19,3 @@
         </span>
     </a>
 </div>
-
-<style>
-    .content.compact {
-        width: 30em !important;
-    }
-</style>
