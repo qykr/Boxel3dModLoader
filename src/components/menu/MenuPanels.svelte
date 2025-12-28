@@ -2,7 +2,7 @@
     import { type Snippet } from "svelte";
     import { getMenuContext } from "./context";
 
-    let { width = "50em", children }:
+    let { width = "30em", children }:
         { width?: string; children?: Snippet } = $props();
 
     const ctx = getMenuContext();

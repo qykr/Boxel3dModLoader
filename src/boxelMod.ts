@@ -1,7 +1,7 @@
 import { BoxelModLoader } from "./bml";
 import { AppState } from "./types/game";
 
-export interface ModManifest {
+export type ModManifest = {
     /** Unique mod identifier */
     id: string;
 
@@ -14,8 +14,11 @@ export interface ModManifest {
     /** Mod author */
     author?: string;
 
-    /** Mod description */
-    description?: string;
+    /** Short description for card */
+    shortDesc?: string;
+    
+    /** Long description for info */
+    longDesc?: string;
 
     /**
      * Boxel version compatibility
@@ -37,7 +40,7 @@ export interface ModManifest {
 
     /** Mod entry point */
     mainFile?: string;
-}
+};
 
 export interface BoxelMod {
     manifest: ModManifest;

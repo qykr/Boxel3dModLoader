@@ -1,14 +1,18 @@
 <script lang="ts">
   let {
+    id,
     title = '',
     label = '',
+    href,
     tag = '',
     subtitle = '',
     thumbnailUrl = '',
     onclick = () => {}
   }: {
+    id?: string,
     title?: string;
     label?: string;
+    href?: string;
     tag?: string;
     subtitle?: string;
     thumbnailUrl?: string;
@@ -16,28 +20,29 @@
   } = $props();
 </script>
 
-<!-- svelte-ignore a11y_click_events_have_key_events -->
-<!-- svelte-ignore a11y_no_static_element_interactions -->
-<div class="item" {onclick}>
-  <div class="thumbnail">
-    {#if thumbnailUrl}
-      <img src={thumbnailUrl} alt={title} />
-    {/if}
 
-    {#if label}
-      <div class="label">{label}</div>
-    {/if}
+<div {id} class="item">
+  <a {href} {onclick}>
+    <div class="thumbnail">
+      {#if thumbnailUrl}
+        <img src={thumbnailUrl} alt={title} />
+      {/if}
 
-    {#if tag}
-      <div class="tag"><div>{tag}</div></div>
-    {/if}
+      {#if label}
+        <div class="label">{label}</div>
+      {/if}
 
-    {#if title}
-      <div class="title">{title}</div>
-    {/if}
-  </div>
+      {#if tag}
+        <div class="tag"><div>{tag}</div></div>
+      {/if}
 
-  {#if subtitle}
-    <div class="subtitle"><span>{subtitle}</span></div>
-  {/if}
+      {#if title}
+        <div class="title">{title}</div>
+      {/if}
+    </div>
+
+    {#if subtitle}
+      <div class="subtitle"><span>{subtitle}</span></div>
+    {/if}
+  </a>
 </div>

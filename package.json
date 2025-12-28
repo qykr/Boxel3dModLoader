@@ -7,7 +7,7 @@
     "build:full": "vite build --mode unminify",
     "build": "npm run build:full && npm run build:min",
     "build:ext": "vite build --mode extension && vite build --mode extension-content && cp extension/manifest.json extension/dist/",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "dev": "vite dev"
   },
   "keywords": [],
   "author": "",
