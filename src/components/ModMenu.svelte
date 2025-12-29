@@ -39,7 +39,7 @@
       <ModCard
         modManifest={{
           id: "test-mod2",
-          name: "Test Mod",
+          name: "Test Modlkjlkjklj",
           version: "0.0.1",
           author: "qykr",
           shortDesc: "A test mod"

@@ -1,19 +1,21 @@
 <script lang="ts">
     import Popup from "./menu/Popup.svelte";
     import type { ModManifest } from "../boxelMod";
-  import Menu from "./menu/Menu.svelte";
-  import MenuTabs from "./menu/MenuTabs.svelte";
-  import MenuTab from "./menu/MenuTab.svelte";
-  import MenuPanels from "./menu/MenuPanels.svelte";
-  import MenuPanel from "./menu/MenuPanel.svelte";
+    import Menu from "./menu/Menu.svelte";
+    import MenuTabs from "./menu/MenuTabs.svelte";
+    import MenuTab from "./menu/MenuTab.svelte";
+    import MenuPanels from "./menu/MenuPanels.svelte";
+    import MenuPanel from "./menu/MenuPanel.svelte";
 
     let {
         modManifest,
         newest,
+        enabled,
         isInstalled = false,
     }: {
         modManifest: ModManifest,
         newest?: string,
+        enabled?: boolean,
         isInstalled?: boolean
     } = $props();
     const iconSrc = $derived(
@@ -52,7 +54,15 @@
             </div>
         </div>
         <div class="mod-update"></div>
-        <div class="mod-installed"></div>
+        {#if isInstalled}
+            <div class="mod-enabled">
+                <input
+                    id={`${modManifest.id}-description`}
+                    type="checkbox"
+                />
+                <label for={`${modManifest.id}-description`}>Enabled</label>
+            </div>
+        {/if}
         {#if isInstalled}
             <button class="mod-view" id={modManifest.id}>View</button>
         {:else}
@@ -61,8 +71,16 @@
     </div>
     <Menu toggleButtonId={modManifest.id} defaultTab={`${modManifest.id}-description`}>
         <MenuTabs>
-            <MenuTab target={`${modManifest.id}-description`}>Description</MenuTab>
-            <MenuTab target={`${modManifest.id}-changelog`}>Changelog</MenuTab>
+            <MenuTab
+                target={`${modManifest.id}-description`}
+                label="Description"
+                icon="docs"
+            />
+            <MenuTab
+                target={`${modManifest.id}-changelog`}
+                label="Changelog"
+                icon="history"
+            />
         </MenuTabs>
         <MenuPanels>
             <MenuPanel id={`${modManifest.id}-description`}></MenuPanel>
@@ -79,8 +97,8 @@
     }
 
     .mod-icon {
-        width: 5em;
-        height: 5em;
+        width: 4em;
+        height: 4em;
         border-radius: 1em;
     }
 
@@ -91,42 +109,49 @@
     .mod-title {
         display: flex;
         gap: 1em;
+        align-items: flex-end;
     }
 
     .mod-name {
-        font-size: 1.4em;
+        font-size: 1em;
         margin: 0;
         color: white;
     }
 
     .mod-uptodate {
-        font-size: 1.2em;
+        font-size: 0.8em;
         color: green;
     }
 
     .mod-outdated {
-        font-size: 1.2em;
+        font-size: 0.8em;
         color: rgb(90, 135, 255);
     }
 
     .mod-author {
-        font-size: 1.2em;
+        font-size: 0.8em;
         margin: 0.3em 0 0.3em 0;
         color: white;
     }
 
     .mod-description {
+        font-size: 0.7em;
         color: #e9e9e9;
     } 
 
     .mod-get {
-        width: 4em;
-        font-size: 1.5em;
-        background-color: green !important
+        width: 3.5em;
+        font-size: 1.2em;
+        background-color: green !important;
     }
 
     .mod-view {
-        width: 4em;
-        font-size: 1.5em;
+        width: 3.5em;
+        font-size: 1.2em;
+    }
+
+    .mod-enabled {
+        display: flex;
+        flex-direction: column;
     }
 </style>

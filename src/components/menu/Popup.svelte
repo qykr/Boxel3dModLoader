@@ -32,8 +32,8 @@
         <!-- svelte-ignore a11y_click_events_have_key_events -->
         <!-- svelte-ignore a11y_no_static_element_interactions -->
         <div class="background" onclick={close}></div>
-        <div class="container">
-            <div class="content compact" style="width: {width}">
+        <div class="container" style="width: {width}">
+            <div class="content compact">
                 <div class="panel">
                     {@render children()}
                 </div>
